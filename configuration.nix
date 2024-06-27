@@ -44,13 +44,14 @@
 	LC_TELEPHONE = "en_US.UTF-8";
 	LC_TIME = "en_US.UTF-8";
   };
-
+	  boot.kernelPackages = pkgs.linuxPackages_latest;
+	  boot.supportedFilesystems = [ "ntfs" ];
   # Enable the X11 windowing system.
   services.xserver.enable = true;
 
   # Enable the LXQT Desktop Environment.
-  services.xserver.displayManager.lightdm.enable = true;
-  services.xserver.desktopManager.budgie.enable = true;
+  services.xserver.displayManager.gdm.enable = true;
+  services.xserver.displayManager.gdm.wayland = true;
   services.xserver.desktopManager.lxqt.enable = true;
 
   # Configure keymap in X11
@@ -107,26 +108,38 @@
   #  wget
 
   #coding
-  vscodium-fhs
   nodejs_22
   bun
   github-desktop
-  yarn
-
 
   #internet
   librewolf
   qbittorrent
   joplin-desktop
-  obsidian
-  syncthing
   brave
   onedriver
 
-  #mis
+  #misc
   neothesia
-  gnomeExtensions.blurt
   drawio
+  celeste
+  fclones-gui
+  vlc
+
+  #wayland
+  labwc
+  labwc-tweaks-gtk
+  labwc-menu-generator
+  waybar
+  bemenu
+  fuzzel
+
+  #office
+  mailspring
+  apostrophe
+  inkscape
+  pencil
+  abiword
 
   #utilities
   gparted
@@ -143,16 +156,13 @@
   home-manager
   brightnessctl
   featherpad
-  labwc-gtktheme
-  kopia
   fusuma
 
   #iconsandcursors
-  kanagawa-icon-theme
   gruvbox-dark-icons-gtk
-  phinger-cursors
   graphite-kde-theme
   vimix-icon-theme
+  papirus-nord
 
   #theming
   themechanger
@@ -160,22 +170,27 @@
   themix-gui
  
   #themes
-  kanagawa-gtk-theme
   graphite-gtk-theme
   gruvbox-gtk-theme
   matcha-gtk-theme
   numix-solarized-gtk-theme
+  nordic
 ];
   
 
-  #fonts
-fonts.packages = with pkgs; [
-  (nerdfonts.override { fonts = [ "IosevkaTermSlab" ]; })
-  (google-fonts.override {fonts = [ "Buenard" "Libre Franklin" "Overpass" "Overpass Mono" "Philosopher" "Mulish" "Tenor Sans" "Gentium Book Plus" "Sintony" "Poppins" "Oswald"
-  "Merriweather" "Quattrocento" "Lora" "Raleway" "Cormorant Garamond" "Changa" "Merriweather Sans" "Arsenal"  ]; })
-];
-
-nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix = {
+    gc = {
+      automatic = true;
+      dates = "daily";
+      options = "--delete-older-than 1d";
+    };
+    optimise = {
+      automatic = true;
+      dates = ["daily"];
+    };
+    settings.auto-optimise-store = true;
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+};
 
 services.gnome.gnome-keyring.enable = true;
 services.onedrive.enable = true;
