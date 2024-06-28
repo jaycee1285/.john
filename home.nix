@@ -1,4 +1,8 @@
-{ lib, pkgs, ... }:
+{ lib, pkgs, config, ... }:
+imports = [
+./modules
+]
+
 {
   home = {
     packages = with pkgs; [
@@ -54,6 +58,14 @@ gtk = {
   (google-fonts.override {fonts = [ "Buenard" "Libre Franklin" "Overpass" "Overpass Mono" "Philosopher" "Mulish" "Tenor Sans" "Gentium Book Plus" "Sintony" "Poppins" "Oswald"
   "Merriweather" "Quattrocento" "Lora" "Raleway" "Cormorant Garamond" "Changa" "Merriweather Sans" "Arsenal"  ]; })
 ];
+
+   home.file = {
+
+      "./.config/labwc" = {
+         source = ./dotfiles/labwc;
+         recursive = true;
+         enable = true;
+      }; 
 
     # This needs to actually be set to your username
     username = "john";
